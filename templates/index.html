@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Transcription</title>
+    <style>
+        .recording {
+            background-color: red !important;
+        }
+        button {
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        #result {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        /* Add navigation styles */
+        .nav {
+            width: 100%;
+            background-color: #2c3e50;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav a:hover {
+            background-color: #34495e;
+        }
+
+        .nav a.active {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-container">
+            <a href="/" class="active">Voice Transcription</a>
+            <a href="/page1">About</a>
+        </div>
+    </div>
+
+    <button id="recordButton">Start Recording</button>
+    <div id="result"></div>
+
+    <script>
+        let mediaRecorder;
+        let audioContext;
+        let audioData = [];
+        const recordButton = document.getElementById('recordButton');
+        const resultDiv = document.getElementById('result');
+
+        function floatTo16BitPCM(output, offset, input) {
+            for (let i = 0; i < input.length; i++, offset += 2) {
+                let s = Math.max(-1, Math.min(1, input[i]));
+                output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+            }
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        function encodeWAV(samples, sampleRate) {
+            const buffer = new ArrayBuffer(44 + samples.length * 2);
+            const view = new DataView(buffer);
+
+            /* RIFF identifier */
+            writeString(view, 0, 'RIFF');
+            /* RIFF chunk length */
+            view.setUint32(4, 36 + samples.length * 2, true);
+            /* RIFF type */
+            writeString(view, 8, 'WAVE');
+            /* format chunk identifier */
+            writeString(view, 12, 'fmt ');
+            /* format chunk length */
+            view.setUint32(16, 16, true);
+            /* sample format (raw) */
+            view.setUint16(20, 1, true);
+            /* channel count */
+            view.setUint16(22, 1, true);
+            /* sample rate */
+            view.setUint32(24, sampleRate, true);
+            /* byte rate (sample rate * block align) */
+            view.setUint32(28, sampleRate * 2, true);
+            /* block align (channel count * bytes per sample) */
+            view.setUint16(32, 2, true);
+            /* bits per sample */
+            view.setUint16(34, 16, true);
+            /* data chunk identifier */
+            writeString(view, 36, 'data');
+            /* data chunk length */
+            view.setUint32(40, samples.length * 2, true);
+            /* data */
+            floatTo16BitPCM(view, 44, samples);
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        recordButton.addEventListener('click', async () => {
+            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        channelCount: 1,
+                        sampleRate: 16000
+                    }
+                });
+
+                audioContext = new AudioContext({ sampleRate: 16000 });
+                const source = audioContext.createMediaStreamSource(stream);
+                const processor = audioContext.createScriptProcessor(1024, 1, 1);
+                audioData = [];
+
+                source.connect(processor);
+                processor.connect(audioContext.destination);
+
+                processor.onaudioprocess = (e) => {
+                    const inputData = e.inputBuffer.getChannelData(0);
+                    audioData.push(...inputData);
+                };
+
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.addEventListener('stop', async () => {
+                    const wavBlob = encodeWAV(new Float32Array(audioData), 16000);
+                    const formData = new FormData();
+                    formData.append('audio', wavBlob, 'recording.wav');
+
+                    try {
+                        const response = await fetch('/save-audio', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        resultDiv.textContent = JSON.stringify(data, null, 2);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        resultDiv.textContent = 'Error processing audio';
+                    }
+
+                    // Cleanup
+                    source.disconnect();
+                    processor.disconnect();
+                    audioContext.close();
+                });
+
+                mediaRecorder.start();
+                recordButton.textContent = 'Stop Recording';
+                recordButton.classList.add('recording');
+            } else {
+                mediaRecorder.stop();
+                recordButton.textContent = 'Start Recording';
+                recordButton.classList.remove('recording');
+            }
+        });
+    </script>
+</body>
+</html>
