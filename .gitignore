@@ -27,8 +27,7 @@ ENV/
 # Environment Variables
 .env
 
-# Vosk Model
-vosk-model*/
+
 
 # IDE
 .idea/
