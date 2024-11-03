@@ -2,3 +2,6 @@ Flask==2.0.1
 vosk==0.3.45
 soundfile==0.12.1
 numpy==1.21.0
+openai==1.25.1
+plyer
+python-dotenv
