@@ -2,6 +2,10 @@
 
 A comprehensive web application built to enhance safety awareness and provide educational resources for residents and visitors in Tunis. The platform combines machine learning predictions, educational content, and data visualization to create a holistic safety resource.
 
+# ThreatDetection-Part2 Link
+https://github.com/MedAzizMas/ThreatDetection-Part2.git
+
+
 ## Core Features
 
 ### 1. Safety Prediction System
@@ -180,4 +184,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Future Enhancements
 
-- Mobile application :
+ThreatDetection-Part2 Link
+https://github.com/MedAzizMas/ThreatDetection-Part2.git
+
