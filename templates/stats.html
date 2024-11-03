@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Tunis Safety Predictor{% endblock %}
+
+{% block header_title %}Safety Statistics{% endblock %}
+{% block header_subtitle %}Analysis of Safety Data in Tunis{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 15px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .chart-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(106, 13, 173, 0.1);
+        border: 2px solid #FF69B4;
+        min-height: 250px;
+    }
+
+    .chart-container.full-width {
+        grid-column: 1 / -1;
+        min-height: 300px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(106, 13, 173, 0.1);
+        border: 2px solid #FF69B4;
+        text-align: center;
+    }
+
+    .chart-title {
+        color: #6A0DAD;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 2em;
+        color: #FF69B4;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .pie-container {
+        max-width: 200px;
+        height: 200px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Total Incidents Card -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_incidents }}</div>
+        <div class="chart-title">Total Recorded Incidents</div>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="chart-grid">
+    <!-- Weekend vs Weekday Distribution -->
+    <div class="chart-container">
+        <div class="chart-title">Weekend vs Weekday Incidents</div>
+        <canvas id="weekendChart"></canvas>
+    </div>
+
+    <!-- Public Transport Availability -->
+    <div class="chart-container">
+        <div class="chart-title">Public Transport Availability</div>
+        <canvas id="transportChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Weekend Distribution Chart
+    new Chart(document.getElementById('weekendChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Weekdays', 'Weekends'],
+            datasets: [{
+                label: 'Number of Incidents',
+                data: {{ weekend_data | tojson }},
+                backgroundColor: [
+                    'rgba(106, 13, 173, 0.8)',
+                    'rgba(255, 105, 180, 0.8)'
+                ],
+                borderColor: '#6A0DAD',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Incidents'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Public Transport Chart
+    new Chart(document.getElementById('transportChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Available', 'Not Available'],
+            datasets: [{
+                data: [
+                    {{ transport_available }},
+                    {{ transport_unavailable }}
+                ],
+                backgroundColor: [
+                    'rgba(106, 13, 173, 0.8)',
+                    'rgba(255, 105, 180, 0.8)'
+                ],
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 12 }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %} 

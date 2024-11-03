@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Incident - Tunis Safety Predictor{% endblock %}
+
+{% block header_title %}Submit Safety Incident{% endblock %}
+{% block header_subtitle %}Help improve women's safety by reporting incidents in Tunis{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .input-group {
+        margin-bottom: 0;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    /* Inputs and selects with pink borders */
+    .input-group select,
+    .input-group input {
+        height: 48px;
+        width: 100%;
+        padding: 8px 12px;
+        box-sizing: border-box;
+        font-size: 16px;
+        border: 2px solid #FF69B4;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    /* Focus states */
+    .input-group select:focus,
+    .input-group input:focus {
+        outline: none;
+        border-color: #6A0DAD;
+        box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+    }
+
+    /* Hover state */
+    .input-group select:hover,
+    .input-group input:hover {
+        border-color: #FF1493;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #6A0DAD;
+    }
+
+    /* Custom styling for date input */
+    input[type="date"] {
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 10px;
+    }
+
+    /* Select arrow styling */
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF69B4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 16px;
+        padding-right: 40px !important;
+    }
+
+    /* Purple button styling */
+    button {
+        background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+        color: white;
+        padding: 16px 28px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2em;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 15px rgba(106, 13, 173, 0.2);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(106, 13, 173, 0.3);
+        background: linear-gradient(135deg, #5A0B93, #7A1BD2);
+    }
+
+    button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba(106, 13, 173, 0.2);
+    }
+
+    /* Result message styling */
+    #submitResult {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    #submitResult h3 {
+        color: #6A0DAD;
+        font-size: 1.2em;
+        margin: 0;
+        padding: 15px;
+        border-radius: 8px;
+        background: rgba(106, 13, 173, 0.1);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .input-group select,
+        .input-group input {
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="input-section">
+        <div class="form-grid">
+            <!-- Date -->
+            <div class="input-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <!-- Incident Type -->
+            <div class="input-group">
+                <label for="incidentType">Type of Incident</label>
+                <select id="incidentType" required>
+                    <option value="">Select incident type</option>
+                    <option value="verbal_harassment">Verbal Harassment</option>
+                    <option value="sexual_harassment">Sexual Harassment</option>
+                    <option value="stalking">Stalking</option>
+                    <option value="physical_assault">Physical Assault</option>
+                    <option value="intimidation">Intimidation</option>
+                    <option value="catcalling">Catcalling</option>
+                    <option value="unwanted_following">Unwanted Following</option>
+                    <option value="inappropriate_photography">Inappropriate Photography</option>
+                    <option value="cyber_harassment">Cyber Harassment</option>
+                    <option value="other">Other Gender-Based Violence</option>
+                </select>
+            </div>
+
+            <!-- Street Selection -->
+            <div class="input-group full-width">
+                <label for="streetSelect">Street</label>
+                <select id="streetSelect" required>
+                    <option value="">Select a street</option>
+                    <option value="Avenue Habib Bourguiba">Avenue Habib Bourguiba</option>
+                    <option value="Avenue Hédi Nouira">Avenue Hédi Nouira</option>
+                    <option value="Avenue Kheireddine Pacha">Avenue Kheireddine Pacha</option>
+                    <option value="Avenue Louis Braille">Avenue Louis Braille</option>
+                    <option value="Avenue Mohamed Ali">Avenue Mohamed Ali</option>
+                    <option value="Avenue Mohamed V">Avenue Mohamed V</option>
+                    <option value="Avenue Taieb Mehiri">Avenue Taieb Mehiri</option>
+                    <option value="Avenue de Londres">Avenue de Londres</option>
+                    <option value="Avenue de Paris">Avenue de Paris</option>
+                    <option value="Avenue de la Liberté">Avenue de la Liberté</option>
+                    <option value="Avenue de la République">Avenue de la République</option>
+                    <option value="Avenue du 14 Janvier">Avenue du 14 Janvier</option>
+                    <option value="Avenue du Stade">Avenue du Stade</option>
+                    <option value="Boulevard de la Terre">Boulevard de la Terre</option>
+                    <option value="Rue Hannibal">Rue Hannibal</option>
+                    <option value="Rue Jamaa Ezzitouna">Rue Jamaa Ezzitouna</option>
+                    <option value="Rue Mohamed V">Rue Mohamed V</option>
+                    <option value="Rue Pierre de Coubertin">Rue Pierre de Coubertin</option>
+                    <option value="Rue Sidi Ben Arous">Rue Sidi Ben Arous</option>
+                    <option value="Rue d'Algérie">Rue d'Algérie</option>
+                    <option value="Rue d'Iran">Rue d'Iran</option>
+                    <option value="Rue de Marseille">Rue de Marseille</option>
+                    <option value="Rue de la Kasbah">Rue de la Kasbah</option>
+                    <option value="Rue de la Plage">Rue de la Plage</option>
+                    <option value="Rue des Entrepreneurs">Rue des Entrepreneurs</option>
+                    <option value="Rue des Jasmins">Rue des Jasmins</option>
+                    <option value="Rue des Orangers">Rue des Orangers</option>
+                    <option value="Rue des Sports">Rue des Sports</option>
+                    <option value="Rue des Suffetes">Rue des Suffetes</option>
+                    <option value="Rue du Caire">Rue du Caire</option>
+                    <option value="Rue du Lac Michigan">Rue du Lac Michigan</option>
+                    <option value="Rue du Lac Victoria">Rue du Lac Victoria</option>
+                    <option value="Rue du Lac Windermere">Rue du Lac Windermere</option>
+                    <option value="Rue du Musée">Rue du Musée</option>
+                    <option value="Rue du Pacha">Rue du Pacha</option>
+                    <option value="Rue du Port">Rue du Port</option>
+                    <option value="Souk El Attarine">Souk El Attarine</option>
+                </select>
+            </div>
+
+            <!-- Is Weekend -->
+            <div class="input-group">
+                <label for="isWeekend">Is Weekend</label>
+                <select id="isWeekend" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <!-- Street Lights -->
+            <div class="input-group">
+                <label for="streetLights">Street Lights</label>
+                <select id="streetLights" required>
+                    <option value="1">Working</option>
+                    <option value="0">Not Working</option>
+                </select>
+            </div>
+
+            <!-- Crowd Level -->
+            <div class="input-group">
+                <label for="crowdLevel">Crowd Level (1-5)</label>
+                <input type="number" id="crowdLevel" min="1" max="5" value="1" required>
+            </div>
+
+            <!-- Public Transport -->
+            <div class="input-group">
+                <label for="publicTransport">Public Transport</label>
+                <select id="publicTransport" required>
+                    <option value="1">Available</option>
+                    <option value="0">Not Available</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="submitData()" class="full-width">Submit Report</button>
+        </div>
+    </div>
+
+    <div id="submitResult"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function submitData() {
+        const formData = {
+            date: document.getElementById('date').value,
+            incident_type: document.getElementById('incidentType').value,
+            street: document.getElementById('streetSelect').value,
+            is_weekend: parseInt(document.getElementById('isWeekend').value),
+            street_lights: parseInt(document.getElementById('streetLights').value),
+            crowd_level: parseInt(document.getElementById('crowdLevel').value),
+            public_transport: parseInt(document.getElementById('publicTransport').value)
+        };
+
+        // Validate all fields are filled
+        for (let key in formData) {
+            if (!formData[key] && formData[key] !== 0) {
+                alert('Please fill in all fields');
+                return;
+            }
+        }
+
+        const resultDiv = document.getElementById('submitResult');
+        resultDiv.innerHTML = `
+            <h3 style="color: #89CFF0;">
+                <span class="loading">Submitting report...</span>
+            </h3>
+        `;
+        
+        try {
+            const response = await fetch('/submit_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = `<h3>${data.message}</h3>`;
+                resultDiv.classList.add('show');
+                
+                // Clear form on success
+                if (data.status === 'success') {
+                    document.getElementById('date').value = '';
+                    document.getElementById('incidentType').value = '';
+                    document.getElementById('streetSelect').value = '';
+                    document.getElementById('crowdLevel').value = '1';
+                }
+            }, 300);
+            
+        } catch (error) {
+            console.error('Error:', error);
+            resultDiv.innerHTML = `<h3 style="color: #FF4444;">Error submitting report</h3>`;
+        }
+    }
+</script>
+{% endblock %} 

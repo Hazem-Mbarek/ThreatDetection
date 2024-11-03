@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Safety Education Hub{% endblock %}
+
+{% block header_title %}SAFETY EDUCATION HUB{% endblock %}
+{% block header_subtitle %}Learn essential safety skills and techniques{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        grid-column: 1 / -1;
+        color: #6A0DAD;
+        font-size: 1.8em;
+        font-weight: 600;
+        margin: 20px 0;
+        text-align: center;
+        padding: 10px;
+        background: rgba(106, 13, 173, 0.1);
+        border-radius: 8px;
+    }
+
+    .resource-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(106, 13, 173, 0.1);
+        border: 2px solid #FF69B4;
+        transition: transform 0.3s ease;
+    }
+
+    .resource-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .resource-title {
+        color: #6A0DAD;
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .resource-description {
+        color: #666;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .pdf-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .pdf-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(106, 13, 173, 0.2);
+        background: linear-gradient(135deg, #5A0B93, #7A1BD2);
+    }
+
+    @media (max-width: 768px) {
+        .resource-grid {
+            grid-template-columns: 1fr;
+            padding: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="resource-grid">
+    <h2 class="section-title">Safety Training Videos</h2>
+    {% for video in videos %}
+    <div class="resource-card">
+        <div class="resource-title">{{ video.title }}</div>
+        <div class="video-container">
+            <iframe src="{{ video.url }}" allowfullscreen></iframe>
+        </div>
+        <p class="resource-description">{{ video.description }}</p>
+    </div>
+    {% endfor %}
+
+    <h2 class="section-title">Quick Reference Guides</h2>
+    {% for pdf in pdfs %}
+    <div class="resource-card">
+        <div class="resource-title">{{ pdf.title }}</div>
+        <p class="resource-description">{{ pdf.description }}</p>
+        <a href="{{ url_for('download_file', filename=pdf.filename) }}" 
+           class="pdf-link" 
+           download>
+            <i class="fas fa-file-pdf"></i> Download Guide
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

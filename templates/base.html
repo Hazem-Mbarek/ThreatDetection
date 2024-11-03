@@ -1,123 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <!-- ... existing head content ... -->
+    <title>{% block title %}Tunis Safety Predictor{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F5F5F5;
+            color: #1A1A1A;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            margin: 10px 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+            color: #89CFF0;
+            font-weight: 500;
+        }
+
+        .nav {
+            background-color: #89CFF0;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #6A0DAD;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            padding: 6px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(106, 13, 173, 0.1);
+        }
+
+        .nav-link.active {
+            background-color: #6A0DAD;
+            color: white;
+        }
+
+        .input-section {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #6A0DAD;
+            font-size: 1.1em;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #89CFF0;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #333;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #6A0DAD;
+        }
+
+        /* Enhanced Button Styling */
+        button {
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white;
+            padding: 16px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 13, 173, 0.3);
+            background: linear-gradient(135deg, #5A0B93, #7A1BD2);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(106, 13, 173, 0.2);
+        }
+
+        /* Enhanced Prediction Result Styling */
+        #predictionResult {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.1);
+            border: 2px solid rgba(106, 13, 173, 0.1);
+        }
+
+        #predictionResult h3 {
+            color: #6A0DAD;
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 600;
+            line-height: 1.4;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: inline-block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #89CFF0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6A0DAD;
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
+        }
+
+        .pdf-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pdf-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.2);
+            background: linear-gradient(135deg, #5A0B93, #7A1BD2);
+        }
+
+        .pdf-link i {
+            font-size: 1.2em;
+        }
+    </style>
+    {% block extra_styles %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <!-- Brand/logo -->
-            <a class="navbar-brand" href="/">Your Brand</a>
-            
-            <!-- Hamburger menu button for mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <!-- Navigation items -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                
-                <!-- Optional: Search form -->
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
+    <div class="header">
+        <h1>{% block header_title %}Tunis Safety Predictor{% endblock %}</h1>
+        <p>{% block header_subtitle %}Predict safety levels in different areas of Tunis{% endblock %}</p>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/predict" class="nav-link {% if request.endpoint == 'predict_page' %}active{% endif %}">Safety Prediction</a>
+            <a href="/submit" class="nav-link {% if request.endpoint == 'submit_page' %}active{% endif %}">Submit Incident</a>
+            <a href="/stats" class="nav-link {% if request.endpoint == 'stats_page' %}active{% endif %}">Statistics</a>
+            <a href="/learn" class="nav-link {% if request.endpoint == 'learn_page' %}active{% endif %}">Learn Safety</a>
         </div>
     </nav>
 
-    <!-- After the navbar -->
-    <section class="hero bg-light py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-3">Welcome to Your Site</h1>
-                    <p class="lead text-muted mb-4">
-                        Create something amazing with our powerful and flexible tools. 
-                        Start your journey today and join thousands of satisfied users.
-                    </p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Get Started</button>
-                        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Learn More</button>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-none d-lg-block">
-                    <!-- Replace 'your-image.jpg' with your actual image path -->
-                    <img src="your-image.jpg" alt="Welcome Image" class="img-fluid rounded-3 shadow">
-                </div>
-            </div>
-        </div>
-    </section>
+    {% block content %}{% endblock %}
 
-    <!-- Optional: Feature section right after hero -->
-    <section class="features py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-gear-fill fs-1 text-primary"></i>
-                            </div>
-                            <h5 class="card-title">Easy to Use</h5>
-                            <p class="card-text">Simple and intuitive interface designed for the best user experience.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-shield-check fs-1 text-primary"></i>
-                            </div>
-                            <h5 class="card-title">Secure</h5>
-                            <p class="card-text">Your data is protected with industry-standard security measures.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-graph-up fs-1 text-primary"></i>
-                            </div>
-                            <h5 class="card-title">Scalable</h5>
-                            <p class="card-text">Grows with your needs, from small projects to enterprise solutions.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Content block for child templates -->
-    <main class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </main>
-
-    <!-- ... rest of your body content ... -->
+    {% block scripts %}{% endblock %}
 </body>
 </html> 

@@ -1,91 +1,162 @@
-# Speech-to-Text Transcription App
+# Safety Education Hub - Tunis
 
-A Flask web application that converts speech to text using the Vosk speech recognition model.
+A comprehensive web application built to enhance safety awareness and provide educational resources for residents and visitors in Tunis. The platform combines machine learning predictions, educational content, and data visualization to create a holistic safety resource.
 
-## Features
-- Audio file upload and transcription
-- Automatic stereo to mono conversion
-- Supports various audio formats
-- Real-time transcription display
-- Lightweight and fast processing
+## Core Features
 
-## Prerequisites
-- Python 3.x
-- Flask
-- Vosk
-- SoundFile
-- NumPy
+### 1. Safety Prediction System
+- District-based safety analysis
+- Public transport availability consideration
+- Real-time safety level predictions
+- User-friendly interface for quick assessments
 
-## Installation
+### 2. Educational Resources
+- Curated self-defense training videos
+- Downloadable safety guides
+- Emergency response documentation
+- Professional safety techniques
 
-1. Clone the repository:
+### 3. Statistics Dashboard
+- Visual representation of safety data
+- Transport availability analysis
+- District-wise safety metrics
+- Interactive data visualization
+
+## Technologies Used
+
+### Frontend
+- HTML5/CSS3 for structure and styling
+- JavaScript for interactive features
+- Chart.js for data visualization
+- Responsive design for mobile compatibility
+- Font Awesome for icons
+
+### Backend
+- **Flask**: Python web framework
+- **Pandas**: Data manipulation and analysis
+- **NumPy**: Numerical computing
+- **Scikit-learn**: Machine learning implementation
+- **PyPDF2**: PDF file handling
+- **OpenAI**: Advanced text processing
+- **Joblib**: Model persistence
+
+### Data Storage
+- CSV files for statistical data
+- PDF documents for educational content
+- Structured data organization
+
+## Setup Instructions
+
+1. Clone the repository
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone [repository-url]
+cd [project-directory]
 ```
 
-2. Install required packages:
+2. Create and activate virtual environment
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+```
+
+3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Download Vosk model:
-- Download [vosk-model-small-en-us-0.15](https://alphacephei.com/vosk/models)
-- Extract to project directory as `vosk-model-small-en-us`
+4. Configure environment variables
+```bash
+cp .env.example .env
+# Edit .env with your configurations
+```
 
-## Usage
-
-1. Start the Flask server:
+5. Run the application
 ```bash
 python app.py
 ```
 
-2. Open your web browser and go to:
-```
-http://127.0.0.1:5000
-```
-
-3. Upload an audio file and click "Transcribe"
-
-## Supported Audio Formats
-- WAV
-- MP3
-- OGG
-- FLAC
-- And more (supported by SoundFile)
-
 ## Project Structure
 ```
-project/
-├── app.py              # Main Flask application
-├── requirements.txt    # Python dependencies
+safety-hub/
+├── app.py                 # Main application file
+├── requirements.txt       # Project dependencies
+├── README.md             # Documentation
+├── .env                  # Environment variables
 ├── static/
-│   ├── css/
-│   │   └── style.css  # Styling
-│   └── uploads/       # Temporary audio storage
-├── templates/
-│   └── index.html     # Web interface
-└── vosk-model-small-en-us/  # Speech recognition model
+│   ├── uploads/          # PDF resources
+│   │   ├── iasc_emergency_response.pdf
+│   │   └── Personal_Safety_guide.pdf
+│   ├── css/             # Stylesheets
+│   └── js/              # JavaScript files
+├── templates/            # HTML templates
+│   ├── base.html        # Base template
+│   ├── learn.html       # Educational content
+│   ├── predict.html     # Safety prediction
+│   ├── stats.html       # Statistics dashboard
+│   └── submit.html      # Data submission
+└── models/              # ML models
+    └── safety_model.joblib
 ```
 
-## Dependencies
-- Flask==2.0.1
-- vosk==0.3.45
-- soundfile==0.12.1
-- numpy==1.21.0
+## API Endpoints
 
-## Notes
-- Audio files are automatically converted to mono if needed
-- Temporary files are cleaned up after processing
-- Best results with clear audio recordings
-- Model size: ~40MB
+- `/` - Home page
+- `/predict` - Safety prediction interface
+- `/learn` - Educational resources
+- `/stats` - Statistics dashboard
+- `/submit` - Incident submission
+- `/downloads/<filename>` - File downloads
 
-## License
-[Your chosen license]
+## Development
+
+### Prerequisites
+- Python 3.8+
+- pip package manager
+- Virtual environment
+- Web browser
+
+### Code Style
+- Follow PEP 8 guidelines
+- Use meaningful variable names
+- Comment complex logic
+- Keep functions focused and small
+
+## Security Features
+
+- Input validation
+- Secure file handling
+- Protected API endpoints
+- Error handling
+- Data sanitization
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## Contributing
-[Your contribution guidelines]
 
-## Acknowledgments
-- [Vosk](https://alphacephei.com/vosk/) for the speech recognition model
-- [Flask](https://flask.palletsprojects.com/) for the web framework
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+
+## Contact
+
+Project Link: [repository-url]
+
+## Future Enhancements
+
+- Mobile application
+- Real-time alerts
+- Community features
+- Advanced analytics
+- Multi-language support
