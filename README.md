@@ -14,17 +14,27 @@ https://github.com/MedAzizMas/ThreatDetection-Part2.git
 - Real-time safety level predictions
 - User-friendly interface for quick assessments
 
+ ![{A2AFEE2D-0227-42E3-BEA5-ABEFB5DD9A5B}](https://github.com/user-attachments/assets/d77b88d5-af34-4b97-a96d-55447376d893)
+
 ### 2. Educational Resources
 - Curated self-defense training videos
 - Downloadable safety guides
 - Emergency response documentation
 - Professional safety techniques
 
+![{8F6E65D3-E3CF-4A33-BCFB-4639AD4ECE1A}](https://github.com/user-attachments/assets/7814a2cb-d625-44c0-85df-03c9b9267b64)
+
+
 ### 3. Statistics Dashboard
 - Visual representation of safety data
 - Transport availability analysis
 - District-wise safety metrics
 - Interactive data visualization
+
+  ![{297AAA46-5A85-4436-ABD1-4CE887207397}](https://github.com/user-attachments/assets/d09d99c0-a41f-47ed-8a58-bb5f65e99b8b)
+  
+### 4. Incident Submission
+- Further enriching our database and improving the quality of our AI model
 
 ## Technologies Used
 
@@ -58,6 +68,7 @@ From a quick safety check during a morning commute to comprehensive route planni
 Built using state-of-the-art machine learning techniques, including Random Forest Classification and advanced feature engineering, SafeHer represents a breakthrough in predictive safety technology. Our model doesn't just predict risk – it empowers users with actionable safety intelligence.
 
 > "Because every woman deserves to walk without fear, powered by data-driven confidence."
+
 
 
 
