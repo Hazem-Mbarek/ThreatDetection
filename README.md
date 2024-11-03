@@ -26,7 +26,7 @@ A comprehensive web application built to enhance safety awareness and provide ed
 
 ## Machine Learning : SafeHer: AI-Powered Safety Prediction Model 🛡️
 
-https://colab.research.google.com/drive/1Oja91yxTEd1_DGlvpm9dDWZi0WSqKrMS?usp=sharing
+https://colab.research.google.com/drive/1I9QMAUryYvViDGFVpLkeH02AdwKZeT2h?usp=sharing
 
 ## About The Model
 SafeHer leverages advanced machine learning algorithms to predict safety risk levels in real-time, specifically designed to enhance women's safety in Tunisia's urban areas. Our model processes 20 distinct features, including environmental factors, temporal data, and community-reported incidents, to generate accurate safety risk assessments on a scale of 1-5.
